@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProfissionaisTOP - Marketplace</title>
+<style>
+:root {
+  --primary: #00B894; --primary-dark: #00A383; --primary-light: #E8FBF5;
+  --secondary: #0984E3; --danger: #E17055; --warning: #FDCB6E;
+  --bg: #1565C0; --bg-dark: #0D47A1; --white: #FFFFFF;
+  --card-bg: #FFFFFF; --text: #2D3436; --text-muted: #636E72;
+  --border: #DFE6E9; --shadow: 0 2px 12px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.18); --radius: 14px;
+  --gold: #F9CA24;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── HEADER ── */
+.header{background:var(--bg-dark);padding:.9rem 2rem;box-shadow:0 4px 16px rgba(0,0,0,.25);position:sticky;top:0;z-index:200;}
+.nav{max-width:1300px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;}
+.logo{font-size:2.2rem;font-weight:900;color:#fff;letter-spacing:-1px;cursor:pointer;user-select:none;}
+.logo span{color:#FFD700;}
+.logo-sub{font-size:.7rem;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase;margin-top:-4px;}
+.nav-links{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;}
+
+/* ── BUTTONS ── */
+.btn{padding:.55rem 1.1rem;border:none;border-radius:25px;cursor:pointer;font-weight:700;transition:all .25s;font-size:.85rem;font-family:inherit;display:inline-flex;align-items:center;gap:.35rem;white-space:nowrap;text-decoration:none;}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,184,148,.35);}
+.btn-secondary{background:rgba(255,255,255,.13);color:#fff;border:2px solid rgba(255,255,255,.35);}
+.btn-secondary:hover{background:rgba(255,255,255,.22);}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-danger:hover{background:#c0392b;}
+.btn-outline{background:transparent;border:2px solid currentColor;}
+.btn-gold{background:var(--gold);color:#2D3436;}
+.btn-gold:hover{background:#f0b700;}
+.btn-sm{padding:.3rem .7rem;font-size:.78rem;}
+.btn-lg{padding:.75rem 1.6rem;font-size:1rem;}
+.btn-block{width:100%;justify-content:center;}
+.btn[disabled]{opacity:.5;cursor:not-allowed;}
+
+/* ── LAYOUT ── */
+.container{max-width:1300px;margin:0 auto;padding:1.5rem 2rem;flex:1;width:100%;}
+.page{animation:fadeIn .3s ease;}
+.hidden{display:none!important;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ── CARDS ── */
+.card{background:var(--card-bg);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);}
+.card-sm{padding:1rem;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#0D47A1 0%,#1E90FF 60%,#00B894 100%);color:#fff;padding:4rem 2rem;text-align:center;border-radius:var(--radius);margin-bottom:2rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:500px;height:500px;background:rgba(255,255,255,.04);border-radius:50%;top:-100px;right:-100px;pointer-events:none;}
+.hero h1{font-size:2.6rem;font-weight:900;margin-bottom:.8rem;line-height:1.2;}
+.hero .hl{background:rgba(255,255,255,.2);padding:.1rem .6rem;border-radius:8px;}
+.hero p{font-size:1.15rem;opacity:.9;margin-bottom:1.8rem;}
+.search-wrap{max-width:660px;margin:0 auto;display:flex;gap:.5rem;}
+.search-input{flex:1;padding:.9rem 1.4rem;border:none;border-radius:30px;font-size:1rem;font-family:inherit;box-shadow:0 4px 20px rgba(0,0,0,.2);}
+.search-input:focus{outline:none;box-shadow:0 4px 20px rgba(0,0,0,.25);}
+.hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:2rem;flex-wrap:wrap;}
+.hero-stat-num{font-size:2rem;font-weight:900;}
+.hero-stat-lbl{font-size:.85rem;opacity:.85;}
+
+/* ── HOME LAYOUT ── */
+.home-grid{display:grid;grid-template-columns:1fr 280px;gap:2rem;}
+.sidebar-box{background:rgba(255,255,255,.1);border-radius:var(--radius);padding:1.2rem;color:#fff;margin-bottom:1rem;}
+.sidebar-box h4{margin-bottom:.8rem;}
+.ad-slot{background:#fff;border-radius:var(--radius);padding:2rem;text-align:center;color:var(--text-muted);border:2px dashed var(--primary);}
+
+/* ── SECTION TITLES ── */
+.section-title{font-size:1.5rem;color:#fff;font-weight:800;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem;}
+
+/* ── CATEGORIES ── */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.8rem;margin-bottom:2rem;}
+.cat-card{background:var(--card-bg);border-radius:var(--radius);padding:1rem;text-align:center;cursor:pointer;transition:all .25s;box-shadow:var(--shadow);border:2px solid transparent;}
+.cat-card:hover{transform:translateY(-4px);border-color:var(--primary);box-shadow:var(--shadow-lg);}
+.cat-icon{font-size:2rem;display:block;margin-bottom:.3rem;}
+.cat-name{font-size:.82rem;font-weight:700;color:var(--text);}
+.cat-count{font-size:.72rem;color:var(--text-muted);}
+
+/* ── PROFESSIONALS ── */
+.pros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.2rem;margin-bottom:2rem;}
+.pro-card{background:var(--card-bg);border-radius:var(--radius);padding:1.4rem;box-shadow:var(--shadow);transition:all .25s;position:relative;}
+.pro-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.pro-badge{position:absolute;top:1rem;right:1rem;background:var(--gold);color:#2D3436;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-weight:800;}
+.pro-head{display:flex;align-items:center;gap:.9rem;margin-bottom:.9rem;}
+.pro-avatar{width:55px;height:55px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#00D2A0);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;font-weight:800;flex-shrink:0;}
+.pro-avatar.img{padding:0;overflow:hidden;}
+.pro-avatar img{width:100%;height:100%;object-fit:cover;}
+.pro-name{font-size:1rem;font-weight:700;color:var(--text);}
+.pro-spec{font-size:.82rem;color:var(--text-muted);}
+.pro-loc{font-size:.82rem;color:var(--text-muted);margin:.3rem 0 .8rem;}
+.pro-actions{display:flex;gap:.5rem;flex-wrap:wrap;}
+.pro-actions .btn{flex:1;}
+.verified-badge{display:inline-flex;align-items:center;gap:.2rem;background:#E8F8F5;color:var(--primary);border-radius:20px;padding:.15rem .5rem;font-size:.72rem;font-weight:700;margin-top:.3rem;}
+
+/* ── JOBS ── */
+.jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem;margin-bottom:2rem;}
+.job-card{background:var(--card-bg);border-radius:var(--radius);padding:1.2rem;border:1.5px solid var(--border);transition:all .25s;cursor:pointer;}
+.job-card:hover{border-color:var(--primary);box-shadow:var(--shadow-lg);transform:translateY(-2px);}
+.job-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem;}
+.job-cat{font-weight:800;color:var(--primary);font-size:.85rem;}
+.job-date{font-size:.72rem;color:var(--text-muted);}
+.job-desc{font-size:.9rem;margin-bottom:.7rem;color:var(--text);display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.job-foot{display:flex;justify-content:space-between;align-items:center;}
+.job-loc{font-size:.78rem;color:var(--text-muted);}
+.job-budget{font-weight:700;color:var(--primary);font-size:.88rem;}
+.job-apply{background:var(--primary);color:#fff;border:none;padding:.35rem .85rem;border-radius:20px;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.job-apply:hover{background:var(--primary-dark);}
+.job-badge{background:#E3F2FD;color:#1565C0;padding:.2rem .55rem;border-radius:12px;font-size:.72rem;font-weight:700;}
+.job-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0;}
+.tag{background:var(--primary-light);color:var(--primary-dark);padding:.15rem .55rem;border-radius:12px;font-size:.72rem;font-weight:600;}
+
+/* ── FORMS ── */
+.form-group{margin-bottom:1.1rem;}
+.form-group label{display:block;margin-bottom:.4rem;font-weight:700;font-size:.88rem;color:var(--text);}
+.form-input,.form-select,.form-textarea{width:100%;padding:.75rem 1rem;border:2px solid var(--border);border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff;color:var(--text);transition:border .2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,184,148,.1);}
+.form-textarea{min-height:90px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-hint{font-size:.78rem;color:var(--text-muted);margin-top:.3rem;}
+.required{color:var(--danger);}
+.input-icon{position:relative;}
+.input-icon .form-input{padding-left:2.5rem;}
+.input-icon::before{content:attr(data-icon);position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:1rem;}
+
+/* ── DASHBOARD ── */
+.dash-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin:1rem 0 1.5rem;}
+.stat-box{background:var(--primary-light);border-radius:var(--radius);padding:1.2rem;text-align:center;}
+.stat-num{font-size:2rem;font-weight:900;color:var(--primary-dark);}
+.stat-lbl{font-size:.8rem;color:var(--text-muted);margin-top:.2rem;}
+.plan-box{border:2px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:.8rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.plan-box.active-plan{border-color:var(--primary);background:var(--primary-light);}
+.plan-name{font-weight:800;font-size:1rem;}
+.plan-price{font-size:1.1rem;color:var(--primary-dark);font-weight:700;}
+.plan-features{font-size:.8rem;color:var(--text-muted);}
+
+/* ── PROFILE ── */
+.profile-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.profile-avatar-lg{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#00D2A0);display:flex;align-items:center;justify-content:center;font-size:2.2rem;color:#fff;font-weight:800;flex-shrink:0;}
+.profile-meta h2{font-size:1.4rem;font-weight:800;}
+.profile-meta p{color:var(--text-muted);font-size:.9rem;}
+.tabs{display:flex;gap:.3rem;border-bottom:2px solid var(--border);margin-bottom:1.5rem;flex-wrap:wrap;}
+.tab-btn{padding:.6rem 1.2rem;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;font-weight:700;font-size:.9rem;cursor:pointer;color:var(--text-muted);transition:all .2s;font-family:inherit;}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);}
+
+/* ── MESSAGES ── */
+.chat-layout{display:grid;grid-template-columns:280px 1fr;gap:0;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-lg);background:#fff;height:520px;}
+.chat-list{border-right:1px solid var(--border);overflow-y:auto;}
+.chat-list-head{padding:1rem;font-weight:800;border-bottom:1px solid var(--border);font-size:.9rem;}
+.chat-item{padding:.9rem 1rem;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.7rem;}
+.chat-item:hover,.chat-item.active{background:var(--primary-light);}
+.chat-item-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#00D2A0);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fff;font-weight:700;flex-shrink:0;}
+.chat-item-name{font-weight:700;font-size:.88rem;}
+.chat-item-last{font-size:.75rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chat-unread{background:var(--primary);color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;margin-left:auto;flex-shrink:0;}
+.chat-main{display:flex;flex-direction:column;}
+.chat-top{padding:.9rem 1.2rem;border-bottom:1px solid var(--border);font-weight:800;display:flex;align-items:center;gap:.7rem;}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.6rem;}
+.msg{max-width:72%;padding:.65rem 1rem;border-radius:18px;font-size:.88rem;line-height:1.5;}
+.msg.sent{background:var(--primary);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.msg.recv{background:#F1F2F6;color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;}
+.msg-time{font-size:.65rem;opacity:.7;margin-top:.3rem;}
+.chat-input{display:flex;gap:.5rem;padding:.8rem 1rem;border-top:1px solid var(--border);align-items:center;}
+.chat-field{flex:1;padding:.6rem 1rem;border:1.5px solid var(--border);border-radius:25px;font-family:inherit;font-size:.9rem;}
+.chat-field:focus{outline:none;border-color:var(--primary);}
+
+/* ── MODALS ── */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;justify-content:center;align-items:center;backdrop-filter:blur(4px);}
+.modal.active{display:flex;}
+.modal-box{background:#fff;border-radius:var(--radius);padding:2rem;max-width:520px;width:90%;max-height:88vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:fadeIn .25s ease;}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;}
+.modal-head h3{font-size:1.2rem;font-weight:800;}
+.close-btn{background:var(--border);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.close-btn:hover{background:var(--danger);color:#fff;}
+
+/* ── STARS ── */
+.stars-interactive{display:flex;gap:.3rem;cursor:pointer;font-size:1.8rem;}
+.stars-interactive .star{color:#DDD;transition:color .15s;line-height:1;}
+.stars-interactive .star.active{color:var(--gold);}
+.stars-interactive .star:hover{color:#F39C12;}
+.stars-display{color:var(--gold);font-size:.95rem;}
+.stars-display .empty{color:#DDD;}
+
+/* ── NOTIFICATIONS ── */
+.notif{position:fixed;top:20px;right:20px;padding:.9rem 1.4rem;border-radius:12px;color:#fff;font-weight:700;z-index:3000;animation:slideIn .35s ease;box-shadow:var(--shadow-lg);max-width:320px;font-size:.9rem;}
+.notif.success{background:#00B894;}
+.notif.error{background:#E17055;}
+.notif.warning{background:#F39C12;}
+.notif.info{background:#0984E3;}
+@keyframes slideIn{from{transform:translateX(120%);opacity:0}to{transform:none;opacity:1}}
+
+/* ── BADGES ── */
+.badge{padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-weight:700;display:inline-flex;align-items:center;gap:.25rem;}
+.badge-success{background:#D4EDDA;color:#155724;}
+.badge-danger{background:#F8D7DA;color:#721C24;}
+.badge-info{background:#CCE5FF;color:#004085;}
+.badge-warning{background:#FFF3CD;color:#856404;}
+.badge-gold{background:var(--gold);color:#2D3436;}
+
+/* ── PAYWALL / BLUR ── */
+.pro-card-locked{position:relative;overflow:hidden;}
+.pro-card-locked .pro-blur{filter:blur(5px);user-select:none;pointer-events:none;}
+.lock-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0) 20%,rgba(255,255,255,.92) 55%);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:1rem;z-index:2;border-radius:var(--radius);}
+.lock-box{text-align:center;}
+.lock-icon{font-size:2rem;display:block;margin-bottom:.3rem;}
+.lock-title{font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:.2rem;}
+.lock-sub{font-size:.78rem;color:var(--text-muted);margin-bottom:.7rem;}
+.pro-card-unlocked .unlock-badge{position:absolute;top:.6rem;left:.6rem;background:#00B894;color:#fff;border-radius:20px;padding:.2rem .65rem;font-size:.72rem;font-weight:800;z-index:3;}
+.blur-text{filter:blur(4px);user-select:none;pointer-events:none;display:inline-block;}
+
+/* ── CREDITS BANNER ── */
+.credits-banner{background:#FFF3CD;border:2px solid var(--warning);border-radius:10px;padding:.85rem 1.2rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:.6rem;font-size:.9rem;color:#856404;}
+
+/* ── ADMIN ── */
+.admin-shell{display:none;position:fixed;inset:0;background:#F1F5F9;z-index:500;overflow-y:auto;}
+.admin-shell.active{display:block;}
+.admin-topbar{background:#2C3E50;color:#fff;padding:.8rem 1.5rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;}
+.admin-body{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 50px);}
+.admin-nav{background:#fff;padding:1rem .75rem;border-right:1px solid var(--border);}
+.admin-menu{list-style:none;}
+.admin-menu li{padding:.7rem 1rem;border-radius:8px;cursor:pointer;font-weight:600;color:var(--text-muted);font-size:.88rem;transition:all .2s;margin-bottom:.2rem;}
+.admin-menu li:hover,.admin-menu li.act{background:var(--primary);color:#fff;}
+.admin-main{padding:1.5rem;}
+.admin-table{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:auto;margin-top:1rem;}
+.admin-table table{width:100%;border-collapse:collapse;}
+.admin-table th{background:#F8FAFC;padding:.8rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;color:var(--text-muted);font-weight:700;}
+.admin-table td{padding:.7rem 1rem;border-bottom:1px solid #F1F2F6;font-size:.88rem;}
+
+/* ── CODE INPUTS ── */
+.code-row{display:flex;gap:.4rem;justify-content:center;margin:1rem 0;}
+.code-input{width:44px;height:52px;text-align:center;font-size:1.4rem;border:2px solid var(--border);border-radius:8px;font-weight:700;font-family:inherit;transition:border .2s;}
+.code-input:focus{outline:none;border-color:var(--primary);}
+
+/* ── MISC ── */
+.divider{border:none;border-top:1px solid var(--border);margin:1.2rem 0;}
+.empty-state{text-align:center;padding:2.5rem;color:var(--text-muted);}
+.empty-state .empty-icon{font-size:3rem;display:block;margin-bottom:.8rem;}
+.price-chip{background:var(--primary-light);color:var(--primary-dark);padding:.2rem .7rem;border-radius:20px;font-weight:700;font-size:.82rem;}
+.tarja{background:#FFF3CD;border-top:3px solid #F39C12;border-bottom:3px solid #F39C12;padding:.8rem;text-align:center;font-weight:700;color:#7D6608;font-size:.88rem;}
+.footer{background:var(--bg-dark);padding:1.5rem 2rem;color:#fff;margin-top:auto;}
+.footer-inner{max-width:1300px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-logo{font-size:1.3rem;font-weight:800;}
+.footer-logo span{color:#FFD700;}
+.footer-links{display:flex;gap:1.2rem;flex-wrap:wrap;}
+.footer-links button{background:none;border:none;color:rgba(255,255,255,.8);cursor:pointer;font-size:.85rem;font-weight:600;font-family:inherit;transition:color .2s;}
+.footer-links button:hover{color:#FFD700;}
+
+/* ── ALERTS ── */
+.alert{border-radius:10px;padding:.85rem 1.1rem;margin-bottom:1rem;font-size:.88rem;font-weight:600;}
+.alert-info{background:#CCE5FF;color:#004085;border:1px solid #B8DAFF;}
+.alert-warning{background:#FFF3CD;color:#856404;border:1px solid #FFEEBA;}
+.alert-success{background:#D4EDDA;color:#155724;border:1px solid #C3E6CB;}
+.alert-danger{background:#F8D7DA;color:#721C24;border:1px solid #F5C6CB;}
+
+/* ── PROPOSAL CARD ── */
+.proposal-card{border:1.5px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:.8rem;display:flex;gap:1rem;flex-wrap:wrap;}
+.proposal-card .pro-av2{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#00D2A0);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#fff;font-weight:800;flex-shrink:0;}
+.proposal-body{flex:1;}
+.proposal-name{font-weight:700;font-size:.95rem;}
+.proposal-text{font-size:.85rem;color:var(--text-muted);margin:.3rem 0;}
+.proposal-meta{display:flex;gap:.8rem;font-size:.78rem;color:var(--text-muted);flex-wrap:wrap;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .home-grid{grid-template-columns:1fr;}
+  .chat-layout{grid-template-columns:1fr;height:auto;}
+  .chat-list{height:200px;border-right:none;border-bottom:1px solid var(--border);}
+  .admin-body{grid-template-columns:1fr;}
+  .admin-nav{display:none;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .nav{flex-direction:column;align-items:stretch;}
+  .hero h1{font-size:1.8rem;}
+  .container{padding:1rem;}
+  .modal-box{padding:1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="header">
+  <nav class="nav">
+    <div onclick="navigateTo('home')" style="cursor:pointer">
+      <div class="logo">Profissionais<span>TOP</span></div>
+      <div class="logo-sub">Marketplace de Serviços</div>
+    </div>
+    <div class="nav-links">
+      <button class="btn btn-secondary btn-sm" onclick="navigateTo('home')">🏠 Início</button>
+      <button class="btn btn-secondary btn-sm" onclick="navigateTo('jobs')">🔍 Vagas</button>
+      <button class="btn btn-secondary btn-sm" onclick="navigateTo('request')">📝 Solicitar</button>
+      <button class="btn btn-secondary btn-sm" onclick="navigateTo('professionals')">👷 Profissionais</button>
+      <button class="btn btn-secondary btn-sm" onclick="navigateTo('messages')">💬 Chat</button>
+      <div id="auth-area"></div>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<div class="container">
+
+  <!-- HOME -->
+  <div id="page-home" class="page">
+    <div class="hero">
+      <h1>Encontre o <span class="hl">profissional ideal</span> para você</h1>
+      <p>Conectamos quem precisa com quem sabe fazer — rápido e seguro</p>
+      <div class="search-wrap">
+        <input type="text" class="search-input" id="search-input" placeholder="🔍 Ex: eletricista, web designer, diarista...">
+        <button class="btn btn-primary btn-lg" onclick="doSearch()">Buscar</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-num" id="stat-pros">3</div><div class="hero-stat-lbl">Profissionais</div></div>
+        <div><div class="hero-stat-num" id="stat-jobs">1</div><div class="hero-stat-lbl">Vagas abertas</div></div>
+        <div><div class="hero-stat-num">+10</div><div class="hero-stat-lbl">Categorias</div></div>
+        <div><div class="hero-stat-num">+5 mil</div><div class="hero-stat-lbl">Cidades</div></div>
+      </div>
+    </div>
+
+    <div class="home-grid">
+      <div>
+        <!-- Jobs preview -->
+        <h2 class="section-title">💼 Vagas em Destaque</h2>
+        <div class="jobs-grid" id="home-jobs"></div>
+        <!-- Categories -->
+        <h2 class="section-title">📂 Categorias</h2>
+        <div class="cat-grid" id="home-cats"></div>
+        <!-- Featured pros -->
+        <h2 class="section-title">⭐ Profissionais em Destaque</h2>
+        <div class="pros-grid" id="home-pros"></div>
+      </div>
+      <div>
+        <div class="sidebar-box">
+          <h4>📢 Publicidade</h4>
+          <div class="ad-slot" style="min-height:160px;">ANUNCIE AQUI<br><small>Seu negócio para milhares de pessoas</small></div>
+        </div>
+        <div class="sidebar-box">
+          <h4>🔥 Mais Buscados</h4>
+          <div id="trending-skills" style="display:flex;flex-direction:column;gap:.4rem;"></div>
+        </div>
+        <div class="sidebar-box">
+          <h4>📊 Hoje na plataforma</h4>
+          <div id="live-stats" style="font-size:.88rem;opacity:.9;line-height:2;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOBS -->
+  <div id="page-jobs" class="page hidden">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h2 style="margin-bottom:1rem;">🔍 Buscar Vagas</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:.8rem;flex-wrap:wrap;" class="jobs-filter">
+        <select class="form-select" id="filter-cat"><option value="">Todas as categorias</option></select>
+        <input type="text" class="form-input" id="filter-city" placeholder="📍 Cidade">
+        <button class="btn btn-primary" onclick="filterJobs()">Filtrar</button>
+      </div>
+    </div>
+    <div class="jobs-grid" id="all-jobs"></div>
+  </div>
+
+  <!-- PROFESSIONALS -->
+  <div id="page-professionals" class="page hidden">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h2 style="margin-bottom:1rem;">👷 Buscar Profissionais</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:.8rem;" class="jobs-filter">
+        <select class="form-select" id="filter-pro-cat"><option value="">Todas as categorias</option></select>
+        <input type="text" class="form-input" id="filter-pro-loc" placeholder="📍 Localidade">
+        <button class="btn btn-primary" onclick="filterPros()">Filtrar</button>
+      </div>
+    </div>
+    <div class="pros-grid" id="all-pros"></div>
+  </div>
+
+  <!-- REQUEST -->
+  <div id="page-request" class="page hidden">
+    <div class="card" style="max-width:680px;margin:0 auto;">
+      <h2 style="margin-bottom:1rem;">📝 Publicar Vaga / Solicitar Serviço</h2>
+      <div class="alert alert-warning">💡 Taxa de publicação: <strong>10 créditos (R$10,00)</strong> por anúncio.</div>
+      <div class="credits-banner" id="req-credits-banner"></div>
+      <form id="request-form" onsubmit="handleRequest(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>📂 Categoria <span class="required">*</span></label>
+            <select class="form-select" id="req-cat" required></select>
+          </div>
+          <div class="form-group">
+            <label>💰 Orçamento (R$)</label>
+            <input type="number" class="form-input" id="req-budget" placeholder="Ex: 300" min="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>📋 Descrição detalhada <span class="required">*</span></label>
+          <textarea class="form-textarea" id="req-desc" required placeholder="Descreva o serviço que precisa..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>📍 Cidade <span class="required">*</span></label>
+            <input type="text" class="form-input" id="req-city" required>
+          </div>
+          <div class="form-group">
+            <label>🗺️ Estado <span class="required">*</span></label>
+            <input type="text" class="form-input" id="req-state" required placeholder="Ex: SP">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>🏷️ Tags (separadas por vírgula)</label>
+          <input type="text" class="form-input" id="req-tags" placeholder="Ex: urgente, residencial, elétrica">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">📤 Publicar Vaga (10 créditos)</button>
+      </form>
+    </div>
+    <!-- My requests -->
+    <div style="max-width:680px;margin:1.5rem auto 0;">
+      <h3 class="section-title">📋 Minhas Vagas Publicadas</h3>
+      <div id="my-requests"></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page hidden">
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="profile-header">
+        <div class="profile-avatar-lg" id="dash-avatar">?</div>
+        <div class="profile-meta">
+          <h2 id="dash-name">—</h2>
+          <p id="dash-email">—</p>
+          <div id="dash-type-badge"></div>
+        </div>
+      </div>
+      <div class="dash-stats">
+        <div class="stat-box"><div class="stat-num" id="ds-credits">0</div><div class="stat-lbl">💰 Créditos</div></div>
+        <div class="stat-box"><div class="stat-num" id="ds-jobs">0</div><div class="stat-lbl">📝 Vagas publicadas</div></div>
+        <div class="stat-box"><div class="stat-num" id="ds-rating">—</div><div class="stat-lbl">⭐ Avaliação</div></div>
+        <div class="stat-box"><div class="stat-num" id="ds-reviews">0</div><div class="stat-lbl">💬 Avaliações</div></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="card">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-perfil',this)">👤 Perfil</button>
+        <button class="tab-btn" onclick="switchTab('tab-creditos',this)">💰 Créditos</button>
+        <button class="tab-btn" onclick="switchTab('tab-historico',this)">📋 Histórico</button>
+        <button class="tab-btn" onclick="switchTab('tab-avaliacoes',this)">⭐ Avaliações</button>
+        <button class="tab-btn" onclick="switchTab('tab-proposals',this)">📩 Propostas</button>
+      </div>
+
+      <div id="tab-perfil">
+        <form onsubmit="saveProfile(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Nome</label><input class="form-input" id="pf-name" required></div>
+            <div class="form-group"><label>Especialidade</label><input class="form-input" id="pf-spec" placeholder="Ex: Eletricista, Designer..."></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Cidade</label><input class="form-input" id="pf-city"></div>
+            <div class="form-group"><label>Estado</label><input class="form-input" id="pf-state" placeholder="SP"></div>
+          </div>
+          <div class="form-group"><label>Bio / Descrição</label><textarea class="form-textarea" id="pf-bio" placeholder="Fale sobre você e seus serviços..."></textarea></div>
+          <div class="form-group"><label>WhatsApp</label><input class="form-input" id="pf-phone" placeholder="(11) 9 9999-9999"></div>
+          <button type="submit" class="btn btn-primary">💾 Salvar Perfil</button>
+        </form>
+      </div>
+
+      <div id="tab-creditos" class="hidden">
+        <h3 style="margin-bottom:1rem;">Comprar Créditos</h3>
+        <div class="plan-box" id="plan-10">
+          <div><div class="plan-name">Pacote Básico</div><div class="plan-features">10 créditos = 1 publicação</div></div>
+          <div><div class="plan-price">R$ 10,00</div><button class="btn btn-primary btn-sm" onclick="buyCredits(10,10)">Comprar</button></div>
+        </div>
+        <div class="plan-box" id="plan-50">
+          <div><div class="plan-name">Pacote Profissional <span class="badge badge-gold">🔥 Popular</span></div><div class="plan-features">50 créditos = 5 publicações + 5 extras</div></div>
+          <div><div class="plan-price">R$ 45,00</div><button class="btn btn-primary btn-sm" onclick="buyCredits(50,45)">Comprar</button></div>
+        </div>
+        <div class="plan-box" id="plan-100">
+          <div><div class="plan-name">Pacote Premium</div><div class="plan-features">100 créditos = 10 publicações + 15 extras</div></div>
+          <div><div class="plan-price">R$ 80,00</div><button class="btn btn-primary btn-sm" onclick="buyCredits(100,80)">Comprar</button></div>
+        </div>
+        <div class="alert alert-info" style="margin-top:1rem;">💡 Créditos não expiram e podem ser usados para publicar vagas ou destacar seu perfil.</div>
+      </div>
+
+      <div id="tab-historico" class="hidden">
+        <h3 style="margin-bottom:1rem;">📋 Vagas Publicadas</h3>
+        <div id="hist-jobs"></div>
+        <hr class="divider">
+        <h3 style="margin-bottom:1rem;">💳 Extrato de Créditos</h3>
+        <div id="hist-credits"></div>
+      </div>
+
+      <div id="tab-avaliacoes" class="hidden">
+        <h3 style="margin-bottom:1rem;">⭐ Minhas Avaliações Recebidas</h3>
+        <div id="my-reviews"></div>
+      </div>
+
+      <div id="tab-proposals" class="hidden">
+        <h3 style="margin-bottom:1rem;">📩 Propostas Recebidas em Minhas Vagas</h3>
+        <div id="my-proposals"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div id="page-messages" class="page hidden">
+    <h2 class="section-title">💬 Mensagens</h2>
+    <div class="chat-layout">
+      <div class="chat-list">
+        <div class="chat-list-head">Conversas</div>
+        <div id="chat-list"></div>
+      </div>
+      <div class="chat-main">
+        <div class="chat-top" id="chat-top">Selecione uma conversa</div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="empty-state"><span class="empty-icon">💬</span>Selecione uma conversa para começar</div>
+        </div>
+        <div class="chat-input">
+          <input type="text" class="chat-field" id="chat-field" placeholder="Digite sua mensagem..." onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="btn btn-primary btn-sm" onclick="sendMsg()">Enviar ➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="page-register" class="page hidden">
+    <div class="card" style="max-width:480px;margin:0 auto;">
+      <h2 style="margin-bottom:1.5rem;">📋 Criar Conta</h2>
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label>Tipo de conta</label>
+          <select class="form-select" id="reg-type">
+            <option value="client">👤 Cliente — Preciso de serviços</option>
+            <option value="professional">🔧 Profissional — Ofereço serviços</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Nome <span class="required">*</span></label><input class="form-input" id="reg-name" required></div>
+          <div class="form-group"><label>Especialidade</label><input class="form-input" id="reg-spec" placeholder="Somente profissionais"></div>
+        </div>
+        <div class="form-group"><label>Email <span class="required">*</span></label><input type="email" class="form-input" id="reg-email" required></div>
+        <div class="form-row">
+          <div class="form-group"><label>Senha <span class="required">*</span></label><input type="password" class="form-input" id="reg-pwd" required minlength="6"></div>
+          <div class="form-group"><label>Confirmar senha <span class="required">*</span></label><input type="password" class="form-input" id="reg-pwd2" required minlength="6"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Cidade</label><input class="form-input" id="reg-city"></div>
+          <div class="form-group"><label>Estado</label><input class="form-input" id="reg-state" placeholder="SP"></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">🚀 Criar Conta Grátis</button>
+        <p style="text-align:center;margin-top:.8rem;font-size:.88rem;">Já tem conta? <a style="color:var(--primary);cursor:pointer;font-weight:700;" onclick="openModal('modal-login')">Entrar</a></p>
+      </form>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<div class="tarja">⚠️ AVISO: Conduta desleal pode levar ao bloqueio permanente da conta.</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">Profissionais<span>TOP</span> <small style="font-size:.65rem;opacity:.7;display:block;">© 2024 Todos os direitos reservados</small></div>
+    <div class="footer-links">
+      <button onclick="navigateTo('home')">🏠 Início</button>
+      <button onclick="navigateTo('professionals')">👷 Profissionais</button>
+      <button onclick="notify('Política de Privacidade: Seus dados são protegidos conforme a LGPD.','info')">🔒 Privacidade</button>
+      <button onclick="notify('ProfissionaisTOP — Marketplace de Serviços Profissionais','info')">🏢 Sobre Nós</button>
+      <button onclick="notify('Suporte: suporte@profissionaistop.com.br','info')">📧 Suporte</button>
+      <button onclick="openAdminAuth()" style="opacity:.6;font-size:.75rem;">🔒</button>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════ MODAIS ═══════════════════ -->
+
+<!-- LOGIN -->
+<div id="modal-login" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>🔑 Entrar na conta</h3><button class="close-btn" onclick="closeModal('modal-login')">✕</button></div>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group"><label>Email</label><input type="email" class="form-input" id="login-email" required></div>
+      <div class="form-group"><label>Senha</label><input type="password" class="form-input" id="login-pwd" required></div>
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Entrar</button>
+      <p style="text-align:center;margin-top:.8rem;font-size:.85rem;">
+        <a style="color:var(--secondary);cursor:pointer;" onclick="openRecovery()">Esqueci minha senha</a> &nbsp;|&nbsp;
+        <a style="color:var(--primary);cursor:pointer;font-weight:700;" onclick="closeModal('modal-login');navigateTo('register')">Criar conta</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- RECOVERY -->
+<div id="modal-recovery" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>🔐 Recuperar Senha</h3><button class="close-btn" onclick="closeModal('modal-recovery')">✕</button></div>
+    <div id="rec-step1">
+      <p style="margin-bottom:1rem;font-size:.9rem;">Informe o e-mail cadastrado e enviaremos um código de verificação.</p>
+      <form onsubmit="requestRecovery(event)">
+        <div class="form-group"><label>Email</label><input type="email" class="form-input" id="rec-email" required></div>
+        <button type="submit" class="btn btn-primary btn-block">Enviar código</button>
+      </form>
+    </div>
+    <div id="rec-step2" class="hidden">
+      <p style="text-align:center;margin-bottom:.5rem;font-size:.9rem;">Código enviado! Digite abaixo:</p>
+      <div class="code-row" id="rec-code-row">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1">
+      </div>
+      <div id="rec-timer" style="text-align:center;font-size:.82rem;color:var(--text-muted);margin:.5rem 0;"></div>
+      <form onsubmit="doReset(event)">
+        <input type="hidden" id="rec-email-hidden">
+        <div class="form-row">
+          <div class="form-group"><label>Nova senha</label><input type="password" class="form-input" id="rec-pwd" required minlength="6"></div>
+          <div class="form-group"><label>Confirmar</label><input type="password" class="form-input" id="rec-pwd2" required minlength="6"></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Redefinir senha</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- RATING -->
+<div id="modal-rating" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>⭐ Avaliar Profissional</h3><button class="close-btn" onclick="closeModal('modal-rating')">✕</button></div>
+    <div id="rating-pro-name" style="font-weight:700;margin-bottom:1rem;font-size:1.05rem;"></div>
+    <form onsubmit="submitRating(event)">
+      <div class="form-group" style="text-align:center;">
+        <label>Sua nota</label>
+        <div class="stars-interactive" id="rating-stars">
+          <span class="star" data-v="1">★</span>
+          <span class="star" data-v="2">★</span>
+          <span class="star" data-v="3">★</span>
+          <span class="star" data-v="4">★</span>
+          <span class="star" data-v="5">★</span>
+        </div>
+      </div>
+      <div class="form-group"><label>Comentário (opcional)</label><textarea class="form-textarea" id="rating-comment" placeholder="Descreva sua experiência..."></textarea></div>
+      <input type="hidden" id="rating-target">
+      <button type="submit" class="btn btn-primary btn-block">Enviar Avaliação</button>
+    </form>
+  </div>
+</div>
+
+<!-- JOB DETAIL -->
+<div id="modal-job" class="modal">
+  <div class="modal-box" style="max-width:600px;">
+    <div class="modal-head"><h3 id="job-modal-title">Vaga</h3><button class="close-btn" onclick="closeModal('modal-job')">✕</button></div>
+    <div id="job-modal-body"></div>
+  </div>
+</div>
+
+<!-- PRO PROFILE -->
+<div id="modal-pro" class="modal">
+  <div class="modal-box" style="max-width:580px;">
+    <div class="modal-head"><h3>👷 Perfil do Profissional</h3><button class="close-btn" onclick="closeModal('modal-pro')">✕</button></div>
+    <div id="pro-modal-body"></div>
+  </div>
+</div>
+
+<!-- PROPOSE -->
+<div id="modal-propose" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>📩 Enviar Proposta</h3><button class="close-btn" onclick="closeModal('modal-propose')">✕</button></div>
+    <form onsubmit="submitProposal(event)">
+      <input type="hidden" id="prop-job-id">
+      <div class="form-group"><label>Mensagem</label><textarea class="form-textarea" id="prop-msg" required placeholder="Descreva sua proposta, experiência, prazo e valor..."></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Valor proposto (R$)</label><input type="number" class="form-input" id="prop-value" min="0" placeholder="0,00"></div>
+        <div class="form-group"><label>Prazo estimado</label><input type="text" class="form-input" id="prop-deadline" placeholder="Ex: 2 dias"></div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Enviar Proposta</button>
+    </form>
+  </div>
+</div>
+
+<!-- UNLOCK PRO -->
+<div id="modal-unlock" class="modal">
+  <div class="modal-box" style="max-width:440px;text-align:center;">
+    <div class="modal-head"><h3>🔓 Ver Dados Completos</h3><button class="close-btn" onclick="closeModal('modal-unlock')">✕</button></div>
+    <div style="font-size:3rem;margin-bottom:.5rem;">👷</div>
+    <div id="unlock-pro-name" style="font-size:1.2rem;font-weight:800;margin-bottom:.3rem;"></div>
+    <div id="unlock-pro-spec" style="color:var(--text-muted);font-size:.9rem;margin-bottom:1rem;"></div>
+    <div style="background:#FFF8E1;border:2px solid var(--gold);border-radius:12px;padding:1rem;margin-bottom:1.2rem;">
+      <div style="font-size:1.5rem;font-weight:900;color:#2D3436;">1 crédito = R$ 2,00</div>
+      <div style="font-size:.85rem;color:var(--text-muted);margin-top:.3rem;">Acesso completo: telefone, e-mail, localização, bio e histórico de avaliações</div>
+    </div>
+    <div id="unlock-credits-info" style="margin-bottom:1rem;font-size:.88rem;"></div>
+    <div style="display:flex;gap:.8rem;">
+      <button class="btn btn-outline btn-block" style="color:var(--text);" onclick="closeModal('modal-unlock')">Cancelar</button>
+      <button class="btn btn-gold btn-block btn-lg" id="unlock-confirm-btn" onclick="confirmUnlock()">🔓 Desbloquear (1 crédito)</button>
+    </div>
+    <p style="font-size:.75rem;color:var(--text-muted);margin-top:.8rem;">Cada perfil desbloqueado fica disponível permanentemente na sua conta.</p>
+  </div>
+</div>
+
+<!-- ADMIN AUTH -->
+<div id="modal-admin-auth" class="modal">
+  <div class="modal-box">
+    <div class="modal-head"><h3>🔒 Acesso Administrativo</h3><button class="close-btn" onclick="closeModal('modal-admin-auth')">✕</button></div>
+    <div id="admin-step1">
+      <form onsubmit="adminLogin(event)">
+        <div class="form-group"><label>Email</label><input type="email" class="form-input" id="adm-email" required></div>
+        <div class="form-group"><label>Senha</label><input type="password" class="form-input" id="adm-pwd" required></div>
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      </form>
+    </div>
+    <div id="admin-step2" class="hidden">
+      <h4 style="text-align:center;margin-bottom:.8rem;">🔐 Código 2FA</h4>
+      <div class="code-row" id="adm-code-row">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1" oninput="nextCode(this)">
+        <input type="text" class="code-input" maxlength="1">
+      </div>
+      <button class="btn btn-primary btn-block" onclick="adminVerify2FA()">✅ Verificar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-shell" class="admin-shell">
+  <div class="admin-topbar">
+    <h3>🔧 Painel Administrativo — ProfissionaisTOP</h3>
+    <button class="btn btn-danger btn-sm" onclick="closeAdmin()">🚪 Sair</button>
+  </div>
+  <div class="admin-body">
+    <div class="admin-nav">
+      <ul class="admin-menu" id="admin-menu">
+        <li class="act" onclick="adminTab('overview',this)">📊 Visão Geral</li>
+        <li onclick="adminTab('users',this)">👥 Usuários</li>
+        <li onclick="adminTab('pros',this)">🔧 Profissionais</li>
+        <li onclick="adminTab('jobs',this)">📝 Vagas</li>
+        <li onclick="adminTab('ratings',this)">⭐ Avaliações</li>
+        <li onclick="adminTab('editpage',this)">✏️ Editar Página</li>
+      </ul>
+    </div>
+    <div class="admin-main" id="admin-content"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCRIPT ═══════════════════ -->
+<script>
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+const S = {
+  user: null,
+  adminEmail: 'phoenix.represent.servic@gmail.com',
+  adminPwd: 'Phoenix2026@',
+  admin2FA: '123456',
+  adminAuthed: false,
+  recTokens: [],
+  selectedRating: 0,
+  activeChat: null,
+  heroTitle: 'Encontre o <span class="hl">profissional ideal</span> para você',
+  heroSub: 'Conectamos quem precisa com quem sabe fazer — rápido e seguro',
+
+  categories: [
+    {id:1,name:'Reformas e Reparos',icon:'🔧'},
+    {id:2,name:'Serviços Domésticos',icon:'🏠'},
+    {id:3,name:'Design e Tecnologia',icon:'💻'},
+    {id:4,name:'Eventos',icon:'🎉'},
+    {id:5,name:'Moda e Beleza',icon:'💇'},
+    {id:6,name:'Saúde e Bem-Estar',icon:'🧘'},
+    {id:7,name:'Educação',icon:'📚'},
+    {id:8,name:'Transporte e Mudança',icon:'🚛'},
+    {id:9,name:'Fotografia e Vídeo',icon:'📷'},
+    {id:10,name:'Culinária e Buffet',icon:'🍽️'},
+    {id:11,name:'Animais de Estimação',icon:'🐾'},
+    {id:12,name:'Segurança',icon:'🔐'},
+  ],
+
+  professionals: [
+    {id:1,name:'João Silva',spec:'Eletricista',avatar:'JS',loc:'São Paulo - SP',email:'joao@email.com',bio:'15 anos de experiência em instalações residenciais e comerciais.',phone:'(11) 9 1234-5678',verified:true},
+    {id:2,name:'Maria Santos',spec:'Diarista',avatar:'MS',loc:'Rio de Janeiro - RJ',email:'maria@email.com',bio:'Serviços domésticos com excelência e confiança.',phone:'(21) 9 8765-4321',verified:true},
+    {id:3,name:'Pedro Costa',spec:'Desenvolvedor Web',avatar:'PC',loc:'Belo Horizonte - MG',email:'pedro@email.com',bio:'Full-stack developer com 8 anos de experiência.',phone:'(31) 9 9988-7766',verified:false},
+  ],
+
+  users: [
+    {name:'João Silva',email:'joao@email.com',pwd:btoa('123456'),status:'active',type:'professional',credits:20,spec:'Eletricista',loc:'São Paulo - SP',bio:'15 anos de experiência.',phone:'(11) 9 1234-5678'},
+    {name:'Maria Santos',email:'maria@email.com',pwd:btoa('123456'),status:'active',type:'professional',credits:20,spec:'Diarista',loc:'Rio de Janeiro - RJ',bio:'Serviços domésticos.',phone:'(21) 9 8765-4321'},
+    {name:'Cliente Exemplo',email:'cliente@email.com',pwd:btoa('123456'),status:'active',type:'client',credits:0,spec:'',loc:'São Paulo - SP',bio:'',phone:''},
+  ],
+
+  jobs: [
+    {id:1,cat:'Reformas e Reparos',desc:'Troca de fiação elétrica residencial completa. Casa de 3 quartos.',city:'São Paulo',state:'SP',budget:800,tags:['urgente','residencial'],date:'2026-06-20',userEmail:'cliente@email.com',proposals:[]},
+    {id:2,cat:'Design e Tecnologia',desc:'Desenvolvimento de site institucional para empresa de contabilidade.',city:'Belo Horizonte',state:'MG',budget:2500,tags:['web','react'],date:'2026-06-22',userEmail:'cliente@email.com',proposals:[]},
+    {id:3,cat:'Serviços Domésticos',desc:'Faxina geral em apartamento de 80m². Produto fornecido pelo cliente.',city:'Rio de Janeiro',state:'RJ',budget:250,tags:['faxina','residencial'],date:'2026-06-25',userEmail:'joao@email.com',proposals:[]},
+  ],
+
+  ratings: [
+    {from:'cliente@email.com',to:'joao@email.com',stars:5,comment:'Excelente profissional, muito pontual!',date:'2026-06-20'},
+    {from:'cliente@email.com',to:'maria@email.com',stars:4,comment:'Ótimo serviço, recomendo.',date:'2026-06-18'},
+    {from:'joao@email.com',to:'pedro@email.com',stars:5,comment:'Trabalho impecável.',date:'2026-06-15'},
+  ],
+
+  chats: [
+    {id:1,name:'João Silva',email:'joao@email.com',avatar:'JS',msgs:[{t:'Olá! Vi sua vaga e tenho interesse.',sent:false,time:'09:30'}]},
+    {id:2,name:'Maria Santos',email:'maria@email.com',avatar:'MS',msgs:[{t:'Bom dia! Posso ajudar com a faxina.',sent:false,time:'10:15'}]},
+  ],
+
+  creditHistory: [],
+  unlockedProfiles: {}, // { email: true }
+  pendingUnlockEmail: null,
+  currentUserEmail: null,
+  recIntervalId: null,
+};
+
+const STORAGE_KEY = 'profissionaistop-state-v1';
+
+// ══════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════
+const h = s => btoa(s);
+const $ = id => document.getElementById(id);
+const fmtDate = d => d ? new Date(d).toLocaleDateString('pt-BR') : '';
+const today = () => new Date().toISOString().split('T')[0];
+
+function saveState(){
+  try{
+    const payload = {
+      users: S.users,
+      professionals: S.professionals,
+      jobs: S.jobs,
+      ratings: S.ratings,
+      chats: S.chats,
+      creditHistory: S.creditHistory,
+      unlockedProfiles: S.unlockedProfiles,
+      heroTitle: S.heroTitle,
+      heroSub: S.heroSub,
+      currentUserEmail: S.currentUserEmail,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (err) {
+    console.warn('Falha ao salvar dados no navegador:', err);
+  }
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    if(data.users) S.users = data.users;
+    if(data.professionals) S.professionals = data.professionals;
+    if(data.jobs) S.jobs = data.jobs;
+    if(data.ratings) S.ratings = data.ratings;
+    if(data.chats) S.chats = data.chats;
+    if(data.creditHistory) S.creditHistory = data.creditHistory;
+    if(data.unlockedProfiles) S.unlockedProfiles = data.unlockedProfiles;
+    if(data.heroTitle) S.heroTitle = data.heroTitle;
+    if(data.heroSub) S.heroSub = data.heroSub;
+    if(data.currentUserEmail) S.currentUserEmail = data.currentUserEmail;
+    if(S.currentUserEmail){
+      const u = S.users.find(u=>u.email===S.currentUserEmail);
+      if(u){
+        S.user = {name:u.name,email:u.email,type:u.type,credits:u.credits,spec:u.spec||'',loc:u.loc||'',bio:u.bio||'',phone:u.phone||''};
+      }
+    }
+  } catch (err) {
+    console.warn('Falha ao carregar dados do navegador:', err);
+  }
+}
+
+function clearRecTimer(){
+  if(S.recIntervalId){
+    clearInterval(S.recIntervalId);
+    S.recIntervalId = null;
+  }
+}
+
+function notify(msg, type='success', dur=3500){
+  const n=document.createElement('div');
+  n.className=`notif ${type}`;n.textContent=msg;
+  document.body.appendChild(n);
+  setTimeout(()=>n.style.opacity='0',dur-400);
+  setTimeout(()=>n.remove(),dur);
+}
+
+function openModal(id){$(id).classList.add('active');}
+function closeModal(id){$(id).classList.remove('active');}
+function nextCode(inp){if(inp.value.length===1)inp.nextElementSibling?.focus();}
+
+// Stars
+function avgRating(email){
+  const rs=S.ratings.filter(r=>r.to===email);
+  if(!rs.length)return{avg:0,count:0};
+  return{avg:(rs.reduce((a,r)=>a+r.stars,0)/rs.length).toFixed(1),count:rs.length};
+}
+function starsHtml(avg,size='1rem'){
+  const full=Math.floor(avg),half=avg-full>=0.5;
+  let h=`<span style="font-size:${size};color:#FDCB6E;">`;
+  for(let i=1;i<=5;i++) h+=i<=full?'★':(i===full+1&&half?'⭐':'<span style="color:#DDD">☆</span>');
+  return h+`</span>`;
+}
+
+// ══════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════
+function updateAuthUI(){
+  const area=$('auth-area');
+  if(!area)return;
+  if(S.user){
+    area.innerHTML=`<span style="color:#fff;font-weight:700;font-size:.88rem;">👋 ${S.user.name}</span>
+      <button class="btn btn-secondary btn-sm" onclick="navigateTo('dashboard')">📊 Área</button>
+      <button class="btn btn-outline btn-sm" style="color:#fff;" onclick="logout()">Sair</button>`;
+  } else {
+    area.innerHTML=`<button class="btn btn-secondary btn-sm" onclick="openModal('modal-login')">🔑 Entrar</button>
+      <button class="btn btn-primary btn-sm" onclick="navigateTo('register')">📋 Cadastrar</button>`;
+  }
+}
+
+function handleLogin(e){
+  e.preventDefault();
+  const email=$('login-email').value.trim();
+  const u=S.users.find(u=>u.email===email&&u.pwd===h($('login-pwd').value));
+  if(!u)return notify('Email ou senha incorretos.','error');
+  if(u.status==='blocked')return notify('Conta bloqueada. Entre em contato com o suporte.','error');
+  S.user={name:u.name,email:u.email,type:u.type,credits:u.credits,spec:u.spec||'',loc:u.loc||'',bio:u.bio||'',phone:u.phone||''};
+  closeModal('modal-login');updateAuthUI();
+  notify(`✅ Bem-vindo(a), ${u.name}!`);
+  navigateTo('home');
+}
+
+function logout(){S.user=null;updateAuthUI();navigateTo('home');notify('Até logo!','info');}
+
+function handleRegister(e){
+  e.preventDefault();
+  const pwd=$('reg-pwd').value,pwd2=$('reg-pwd2').value;
+  if(pwd!==pwd2)return notify('As senhas não coincidem.','error');
+  const email=$('reg-email').value.trim();
+  if(S.users.some(u=>u.email===email))return notify('E-mail já cadastrado.','error');
+  const name=$('reg-name').value.trim(),type=$('reg-type').value;
+  const nu={name,email,pwd:h(pwd),status:'active',type,credits:type==='professional'?20:5,
+    spec:$('reg-spec').value.trim(),loc:`${$('reg-city').value} - ${$('reg-state').value}`.trim(),bio:'',phone:''};
+  S.users.push(nu);
+  if(type==='professional'){
+    const av=name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    S.professionals.push({id:Date.now(),name,spec:nu.spec||'Profissional',avatar:av,loc:nu.loc,email,bio:'',phone:'',verified:false});
+  }
+  S.user={...nu};updateAuthUI();
+  notify('✅ Conta criada! Seja bem-vindo(a)!');
+  navigateTo('dashboard');
+}
+
+// ══════════════════════════════════════════
+//  RECOVERY
+// ══════════════════════════════════════════
+function openRecovery(){
+  closeModal('modal-login');
+  $('rec-step1').classList.remove('hidden');$('rec-step2').classList.add('hidden');
+  $('rec-email').value='';$('rec-pwd').value='';$('rec-pwd2').value='';
+  document.querySelectorAll('#rec-code-row input').forEach(i=>i.value='');
+  openModal('modal-recovery');
+}
+function requestRecovery(e){
+  e.preventDefault();
+  const email=$('rec-email').value.trim();
+  if(!S.users.find(u=>u.email===email))return notify('Email não encontrado.','error');
+  const code=Math.floor(100000+Math.random()*900000).toString();
+  const exp=Date.now()+10*60*1000;
+  S.recTokens=S.recTokens.filter(t=>t.email!==email);
+  S.recTokens.push({email,code,exp});
+  notify(`📧 Código de verificação (simulado): ${code}`,'info',8000);
+  $('rec-email-hidden').value=email;
+  $('rec-step1').classList.add('hidden');$('rec-step2').classList.remove('hidden');
+  startRecTimer(exp);
+}
+function startRecTimer(exp){
+  const el=$('rec-timer');
+  clearRecTimer();
+  S.recIntervalId = setInterval(()=>{
+    const diff=exp-Date.now();
+    if(diff<=0){el.textContent='⏰ Código expirado.';clearRecTimer();return;}
+    const m=Math.floor(diff/60000),s=Math.floor((diff%60000)/1000);
+    el.textContent=`⏳ Válido por ${m}:${s.toString().padStart(2,'0')}`;
+  },1000);
+}
+function doReset(e){
+  e.preventDefault();
+  const email=$('rec-email-hidden').value;
+  const code=Array.from(document.querySelectorAll('#rec-code-row input')).map(i=>i.value).join('');
+  const pwd=$('rec-pwd').value,pwd2=$('rec-pwd2').value;
+  if(pwd!==pwd2)return notify('As senhas não coincidem.','error');
+  const tok=S.recTokens.find(t=>t.email===email&&t.code===code&&t.exp>Date.now());
+  if(!tok)return notify('Código inválido ou expirado.','error');
+  const u=S.users.find(u=>u.email===email);
+  if(u)u.pwd=h(pwd);
+  S.recTokens=S.recTokens.filter(t=>t.email!==email);
+  closeModal('modal-recovery');
+  notify('✅ Senha redefinida! Faça login.','success');
+}
+
+// ══════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════
+const PROTECTED=['dashboard','request','messages'];
+function navigateTo(page){
+  if(PROTECTED.includes(page)&&!S.user){
+    notify('🔒 Faça login para acessar.','warning');openModal('modal-login');return;
+  }
+  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+  const el=$(`page-${page}`);if(el)el.classList.remove('hidden');
+  const inits={
+    home:initHome,jobs:initJobs,professionals:initPros,
+    request:initRequest,dashboard:initDash,messages:initMessages,
+  };
+  if(inits[page])inits[page]();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════
+//  HOME
+// ══════════════════════════════════════════
+function initHome(){
+  $('stat-pros').textContent=S.professionals.length;
+  $('stat-jobs').textContent=S.jobs.length;
+  renderHomeCats();renderHomePros();renderHomeJobs();renderSidebar();
+  const homePage = $('home-jobs').closest('.page');
+  homePage.querySelector('.hero h1').innerHTML=S.heroTitle;
+  homePage.querySelector('.hero p').textContent=S.heroSub;
+}
+function renderHomeCats(){
+  const g=$('home-cats');if(!g)return;
+  g.innerHTML=S.categories.map(c=>{
+    const cnt=S.jobs.filter(j=>j.cat===c.name).length;
+    return `<div class="cat-card" onclick="goCategory('${c.name}')">
+      <span class="cat-icon">${c.icon}</span>
+      <div class="cat-name">${c.name}</div>
+      <div class="cat-count">${cnt} vaga${cnt!==1?'s':''}</div>
+    </div>`;
+  }).join('');
+}
+function renderHomePros(){
+  const g=$('home-pros');if(!g)return;
+  const top=S.professionals.slice(0,6);
+  g.innerHTML=top.map(p=>proCardHtml(p)).join('');
+  setupRatingStars();
+}
+function renderHomeJobs(){
+  const g=$('home-jobs');if(!g)return;
+  const recent=S.jobs.slice(-4).reverse();
+  g.innerHTML=recent.length?recent.map(j=>jobCardHtml(j)).join(''):`<div class="empty-state"><span class="empty-icon">📭</span>Nenhuma vaga ainda.</div>`;
+}
+function renderSidebar(){
+  const tr=$('trending-skills');
+  if(tr){
+    const skills=['Eletricista','Designer','Diarista','Pedreiro','Dev Web','Fotógrafo'];
+    tr.innerHTML=skills.map(s=>`<div onclick="doSearchTerm('${s}')" style="cursor:pointer;background:rgba(255,255,255,.15);padding:.35rem .7rem;border-radius:20px;font-size:.82rem;font-weight:600;">${s}</div>`).join('');
+  }
+  const ls=$('live-stats');
+  if(ls)ls.innerHTML=`👷 ${S.professionals.length} profissionais<br>📝 ${S.jobs.length} vagas ativas<br>⭐ ${S.ratings.length} avaliações`;
+}
+
+function isUnlocked(email){
+  if(S.user&&S.user.email===email)return true;
+  return !!(S.unlockedProfiles&&S.unlockedProfiles[email]);
+}
+
+function proCardHtml(p){
+  const r=avgRating(p.email);
+  const unlocked=isUnlocked(p.email);
+  const firstName=p.name.split(' ')[0];
+  const topBadge=r.avg>=4.8?'<div class="pro-badge">🏆 TOP</div>':'';
+  const verif=p.verified?'<span class="verified-badge">✅ Verificado</span>':'';
+
+  if(unlocked){
+    return `<div class="pro-card pro-card-unlocked" style="position:relative;">
+      ${topBadge}
+      <span class="unlock-badge">✅ Desbloqueado</span>
+      <div class="pro-head">
+        <div class="pro-avatar">${p.avatar}</div>
+        <div>
+          <div class="pro-name">${p.name}</div>
+          <div class="pro-spec">${p.spec}</div>
+          ${verif}
+          <div style="margin-top:.2rem;">${starsHtml(r.avg)} <small style="color:var(--text-muted);">${r.count} av.</small></div>
+        </div>
+      </div>
+      <div class="pro-loc">📍 ${p.loc}</div>
+      <div class="pro-actions">
+        <button class="btn btn-primary btn-sm" onclick="contactPro('${p.email}')">💬 Contato</button>
+        <button class="btn btn-sm btn-outline" style="color:var(--text);" onclick="viewPro('${p.email}')">👤 Perfil</button>
+        <button class="btn btn-sm btn-outline" style="color:var(--gold);border-color:var(--gold);" onclick="openRating('${p.email}','${p.name}')">⭐ Avaliar</button>
+      </div>
+    </div>`;
+  }
+
+  const locBlur=`<span class="blur-text">██████████</span>`;
+  return `<div class="pro-card pro-card-locked">
+    ${topBadge}
+    <div class="pro-blur">
+      <div class="pro-head">
+        <div class="pro-avatar">${p.avatar[0]}</div>
+        <div>
+          <div class="pro-name">${firstName} <span class="blur-text">██████</span></div>
+          <div class="pro-spec">${p.spec}</div>
+          ${verif}
+          <div style="margin-top:.2rem;">${starsHtml(r.avg)} <small style="color:var(--text-muted);">${r.count} av.</small></div>
+        </div>
+      </div>
+      <div class="pro-loc">📍 ${locBlur}</div>
+      <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:.5rem;">📱 ${locBlur} &nbsp; 📧 ${locBlur}</div>
+    </div>
+    <div class="lock-overlay">
+      <div class="lock-box">
+        <span class="lock-icon">🔒</span>
+        <div class="lock-title">Dados protegidos</div>
+        <div class="lock-sub">1 crédito (R$ 2,00) para ver dados completos</div>
+        <button class="btn btn-gold btn-sm" onclick="openUnlock('${p.email}','${p.name}')">🔓 Desbloquear perfil</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function jobCardHtml(j){
+  const tags=j.tags?.map(t=>`<span class="tag">${t}</span>`).join('')||'';
+  return `<div class="job-card" onclick="viewJob(${j.id})">
+    <div class="job-card-head">
+      <span class="job-cat">${j.cat}</span>
+      <span class="job-date">📅 ${fmtDate(j.date)}</span>
+    </div>
+    <div class="job-desc">${j.desc}</div>
+    <div class="job-tags">${tags}</div>
+    <div class="job-foot">
+      <span class="job-loc">📍 ${j.city} - ${j.state}</span>
+      ${j.budget?`<span class="job-budget">R$ ${j.budget.toLocaleString('pt-BR')}</span>`:''}
+      <button class="job-apply" onclick="event.stopPropagation();openPropose(${j.id})">Candidatar-se</button>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+//  JOBS PAGE
+// ══════════════════════════════════════════
+function initJobs(){
+  populateCatFilter('filter-cat');
+  renderAllJobs(S.jobs);
+}
+function populateCatFilter(id){
+  const s=$(id);if(!s)return;
+  s.innerHTML='<option value="">Todas as categorias</option>'+S.categories.map(c=>`<option value="${c.name}">${c.icon} ${c.name}</option>`).join('');
+}
+function filterJobs(){
+  const cat=$('filter-cat').value,city=$('filter-city').value.trim().toLowerCase();
+  let res=S.jobs;
+  if(cat)res=res.filter(j=>j.cat===cat);
+  if(city)res=res.filter(j=>j.city.toLowerCase().includes(city));
+  renderAllJobs(res);
+}
+function renderAllJobs(list){
+  const g=$('all-jobs');if(!g)return;
+  g.innerHTML=list.length?list.map(j=>jobCardHtml(j)).join(''):`<div class="empty-state" style="grid-column:1/-1"><span class="empty-icon">📭</span>Nenhuma vaga encontrada.</div>`;
+}
+
+// ══════════════════════════════════════════
+//  PROS PAGE
+// ══════════════════════════════════════════
+function initPros(){
+  populateCatFilter('filter-pro-cat');
+  renderAllPros(S.professionals);
+}
+function filterPros(){
+  const cat=$('filter-pro-cat').value,loc=$('filter-pro-loc').value.trim().toLowerCase();
+  let res=S.professionals;
+  if(cat){
+    const catName=S.categories.find(c=>c.name===cat)?.name;
+    if(catName)res=res.filter(p=>p.spec&&p.spec.toLowerCase().includes(catName.split(' ')[0].toLowerCase()));
+  }
+  if(loc)res=res.filter(p=>p.loc.toLowerCase().includes(loc));
+  renderAllPros(res);
+}
+function renderAllPros(list){
+  const g=$('all-pros');if(!g)return;
+  g.innerHTML=list.length?list.map(p=>proCardHtml(p)).join(''):`<div class="empty-state" style="grid-column:1/-1"><span class="empty-icon">👷</span>Nenhum profissional encontrado.</div>`;
+  setupRatingStars();
+}
+
+// ══════════════════════════════════════════
+//  REQUEST PAGE
+// ══════════════════════════════════════════
+function initRequest(){
+  populateCatSelect('req-cat');
+  const b=$('req-credits-banner');
+  if(b&&S.user)b.innerHTML=`💰 Seus créditos: <strong>${S.user.credits}</strong> &nbsp;|&nbsp; Custo da publicação: <strong>10 créditos</strong>
+    ${S.user.credits<10?'<span class="badge badge-danger">Créditos insuficientes!</span>':'<span class="badge badge-success">OK</span>'}
+    <button class="btn btn-sm btn-primary" onclick="navigateTo('dashboard');switchTab('tab-creditos',null)">+ Comprar</button>`;
+  renderMyRequests();
+}
+function populateCatSelect(id){
+  const s=$(id);if(!s)return;
+  s.innerHTML='<option value="">Selecione uma categoria</option>'+S.categories.map(c=>`<option value="${c.name}">${c.icon} ${c.name}</option>`).join('');
+}
+function handleRequest(e){
+  e.preventDefault();
+  if(!S.user){notify('Faça login.','warning');openModal('modal-login');return;}
+  if(S.user.credits<10){notify('Créditos insuficientes! Compre mais créditos.','error');return;}
+  const cat=$('req-cat').value,desc=$('req-desc').value.trim(),
+        city=$('req-city').value.trim(),state=$('req-state').value.trim(),
+        budget=$('req-budget').value||0,tags=$('req-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const job={id:Date.now(),cat,desc,city,state,budget:Number(budget),tags,date:today(),userEmail:S.user.email,proposals:[]};
+  S.jobs.push(job);
+  S.user.credits-=10;
+  const u=S.users.find(u=>u.email===S.user.email);if(u)u.credits=S.user.credits;
+  S.creditHistory.push({type:'debit',amount:10,desc:'Publicação de vaga',date:today()});
+  $('request-form').reset();
+  notify('✅ Vaga publicada com sucesso!');
+  renderMyRequests();
+  $('stat-jobs').textContent=S.jobs.length;
+}
+function renderMyRequests(){
+  const c=$('my-requests');if(!c||!S.user)return;
+  const mine=S.jobs.filter(j=>j.userEmail===S.user.email);
+  c.innerHTML=mine.length?mine.map(j=>`<div class="card card-sm" style="margin-bottom:.8rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
+      <div><strong>${j.cat}</strong> — 📍 ${j.city}/${j.state}<br><small style="color:var(--text-muted);">${j.desc.substring(0,80)}...</small></div>
+      <div><span class="badge badge-info">${j.proposals?.length||0} proposta(s)</span> <button class="btn btn-sm btn-danger" onclick="deleteJob(${j.id})">🗑️</button></div>
+    </div>
+  </div>`).join(''):`<div class="empty-state"><span class="empty-icon">📋</span>Você ainda não publicou vagas.</div>`;
+}
+function deleteJob(id){
+  S.jobs=S.jobs.filter(j=>j.id!==id);
+  notify('Vaga removida.','info');renderMyRequests();
+}
+
+// ══════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════
+function initDash(){
+  if(!S.user)return;
+  const r=avgRating(S.user.email);
+  $('dash-avatar').textContent=S.user.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  $('dash-name').textContent=S.user.name;
+  $('dash-email').textContent=S.user.email;
+  $('dash-type-badge').innerHTML=`<span class="badge ${S.user.type==='professional'?'badge-success':'badge-info'}">${S.user.type==='professional'?'🔧 Profissional':'👤 Cliente'}</span>`;
+  $('ds-credits').textContent=S.user.credits;
+  $('ds-jobs').textContent=S.jobs.filter(j=>j.userEmail===S.user.email).length;
+  $('ds-rating').textContent=r.avg>0?r.avg:'—';
+  $('ds-reviews').textContent=r.count;
+  $('pf-name').value=S.user.name||'';
+  $('pf-spec').value=S.user.spec||'';
+  const locParts=(S.user.loc||'').split(' - ');
+  $('pf-city').value=locParts[0]||'';$('pf-state').value=locParts[1]||'';
+  $('pf-bio').value=S.user.bio||'';
+  $('pf-phone').value=S.user.phone||'';
+  renderHistJobs();renderHistCredits();renderMyReviews();renderMyProposals();
+}
+function saveProfile(e){
+  e.preventDefault();
+  const name=$('pf-name').value.trim();
+  S.user.name=name;S.user.spec=$('pf-spec').value.trim();
+  S.user.loc=`${$('pf-city').value} - ${$('pf-state').value}`.trim();
+  S.user.bio=$('pf-bio').value.trim();S.user.phone=$('pf-phone').value.trim();
+  const u=S.users.find(u=>u.email===S.user.email);
+  if(u)Object.assign(u,{name:S.user.name,spec:S.user.spec,loc:S.user.loc,bio:S.user.bio,phone:S.user.phone});
+  const p=S.professionals.find(p=>p.email===S.user.email);
+  if(p)Object.assign(p,{name,spec:S.user.spec,loc:S.user.loc,bio:S.user.bio,phone:S.user.phone});
+  updateAuthUI();notify('✅ Perfil atualizado!');initDash();
+}
+function buyCredits(qty,price){
+  if(!S.user)return;
+  S.user.credits+=qty;
+  const u=S.users.find(u=>u.email===S.user.email);if(u)u.credits=S.user.credits;
+  S.creditHistory.push({type:'credit',amount:qty,desc:`Compra de ${qty} créditos (R$${price})`,date:today()});
+  notify(`✅ +${qty} créditos adicionados!`);
+  $('ds-credits').textContent=S.user.credits;
+  renderHistCredits();
+}
+function renderHistJobs(){
+  const c=$('hist-jobs');if(!c)return;
+  const mine=S.jobs.filter(j=>j.userEmail===S.user.email);
+  c.innerHTML=mine.length?mine.map(j=>`<div class="card card-sm" style="margin-bottom:.6rem;">
+    <strong>${j.cat}</strong> — ${j.city}/${j.state} &nbsp; <span class="badge badge-info">${j.proposals?.length||0} proposta(s)</span>
+    <div style="font-size:.82rem;color:var(--text-muted);">${j.desc.substring(0,60)}...</div>
+  </div>`).join(''):`<div class="empty-state"><span class="empty-icon">📋</span>Sem vagas.</div>`;
+}
+function renderHistCredits(){
+  const c=$('hist-credits');if(!c)return;
+  c.innerHTML=S.creditHistory.length?S.creditHistory.slice().reverse().map(h=>`<div style="display:flex;justify-content:space-between;padding:.5rem .2rem;border-bottom:1px solid var(--border);font-size:.85rem;">
+    <span>${h.desc}</span>
+    <span class="${h.type==='credit'?'':''}"><strong>${h.type==='credit'?'+':'-'}${h.amount}</strong> cr. &nbsp;<small style="color:var(--text-muted);">${fmtDate(h.date)}</small></span>
+  </div>`).join(''):`<div class="empty-state">Sem movimentações.</div>`;
+}
+function renderMyReviews(){
+  const c=$('my-reviews');if(!c)return;
+  const rs=S.ratings.filter(r=>r.to===S.user.email);
+  c.innerHTML=rs.length?rs.map(r=>`<div class="card card-sm" style="margin-bottom:.7rem;">
+    <div style="display:flex;gap:.5rem;align-items:center;">
+      ${starsHtml(r.stars,'1.1rem')} <strong>${r.stars}/5</strong> &nbsp; <small style="color:var(--text-muted);">${fmtDate(r.date)}</small>
+    </div>
+    ${r.comment?`<p style="font-size:.88rem;margin-top:.4rem;color:var(--text-muted);">"${r.comment}"</p>`:''}
+  </div>`).join(''):`<div class="empty-state"><span class="empty-icon">⭐</span>Sem avaliações ainda.</div>`;
+}
+function renderMyProposals(){
+  const c=$('my-proposals');if(!c)return;
+  const myJobs=S.jobs.filter(j=>j.userEmail===S.user.email);
+  const allProps=myJobs.flatMap(j=> (j.proposals||[]).map(p=>({...p,jobCat:j.cat,jobCity:j.city})));
+  c.innerHTML=allProps.length?allProps.map(p=>`<div class="proposal-card">
+    <div class="pro-av2">${p.proName.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()}</div>
+    <div class="proposal-body">
+      <div class="proposal-name">${p.proName}</div>
+      <div class="proposal-text">${p.msg}</div>
+      <div class="proposal-meta">
+        <span>💰 R$ ${p.value||'A negociar'}</span>
+        <span>⏱️ ${p.deadline||'A combinar'}</span>
+        <span>📁 ${p.jobCat}</span>
+        <button class="btn btn-sm btn-primary" onclick="contactProByName('${p.proEmail}','${p.proName}')">💬 Responder</button>
+      </div>
+    </div>
+  </div>`).join(''):`<div class="empty-state"><span class="empty-icon">📩</span>Sem propostas recebidas.</div>`;
+}
+
+function switchTab(id,btn){
+  document.querySelectorAll('[id^="tab-"]').forEach(t=>t.classList.add('hidden'));
+  $(id)?.classList.remove('hidden');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════
+//  MESSAGES
+// ══════════════════════════════════════════
+function initMessages(){
+  renderChatList();
+  if(S.activeChat)openChat(S.activeChat);
+}
+function renderChatList(){
+  const c=$('chat-list');if(!c)return;
+  c.innerHTML=S.chats.map(ch=>`<div class="chat-item ${S.activeChat===ch.id?'active':''}" onclick="openChat(${ch.id})">
+    <div class="chat-item-av">${ch.avatar}</div>
+    <div style="flex:1;overflow:hidden;">
+      <div class="chat-item-name">${ch.name}</div>
+      <div class="chat-item-last">${ch.msgs.slice(-1)[0]?.t||''}</div>
+    </div>
+  </div>`).join('');
+}
+function openChat(id){
+  S.activeChat=id;
+  const ch=S.chats.find(c=>c.id===id);if(!ch)return;
+  $('chat-top').innerHTML=`<div class="chat-item-av" style="width:34px;height:34px;font-size:.8rem;">${ch.avatar}</div> ${ch.name}`;
+  renderChatMessages(ch);
+  renderChatList();
+}
+function renderChatMessages(ch){
+  const c=$('chat-messages');if(!c)return;
+  c.innerHTML=ch.msgs.map(m=>`<div class="msg ${m.sent?'sent':'recv'}">
+    ${m.t}<div class="msg-time">${m.time||''}</div>
+  </div>`).join('');
+  c.scrollTop=c.scrollHeight;
+}
+function sendMsg(){
+  if(!S.user){openModal('modal-login');return;}
+  const f=$('chat-field');const txt=f.value.trim();if(!txt)return;
+  const ch=S.chats.find(c=>c.id===S.activeChat);
+  if(!ch)return;
+  const now=new Date();const time=`${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+  ch.msgs.push({t:txt,sent:true,time});
+  f.value='';renderChatMessages(ch);renderChatList();
+  setTimeout(()=>{
+    ch.msgs.push({t:'Obrigado pela mensagem! Entrarei em contato em breve.',sent:false,time});
+    renderChatMessages(ch);
+  },1200);
+}
+
+// ══════════════════════════════════════════
+//  PAYWALL — UNLOCK PROFILE
+// ══════════════════════════════════════════
+function openUnlock(email, name){
+  if(!S.user){notify('Faça login para desbloquear perfis.','warning');openModal('modal-login');return;}
+  if(isUnlocked(email)){viewPro(email);return;}
+  S.pendingUnlockEmail=email;
+  $('unlock-pro-name').textContent=name;
+  const p=S.professionals.find(p=>p.email===email);
+  $('unlock-pro-spec').textContent=p?p.spec:'';
+  const btn=$('unlock-confirm-btn');
+  if(S.user.credits<1){
+    $('unlock-credits-info').innerHTML=`<div class="alert alert-danger">⚠️ Você tem <strong>${S.user.credits} crédito(s)</strong>. Precisa de pelo menos 1 crédito (R$ 2,00).</div>
+      <button class="btn btn-primary btn-sm" onclick="closeModal('modal-unlock');navigateTo('dashboard');switchTab('tab-creditos',null)">💳 Comprar créditos</button>`;
+    btn.disabled=true;
+  } else {
+    $('unlock-credits-info').innerHTML=`<div class="alert alert-success">💰 Seus créditos: <strong>${S.user.credits}</strong> &nbsp; Após desbloquear: <strong>${S.user.credits-1}</strong></div>`;
+    btn.disabled=false;
+  }
+  openModal('modal-unlock');
+}
+
+function confirmUnlock(){
+  if(!S.user||!S.pendingUnlockEmail)return;
+  if(S.user.credits<1){notify('Créditos insuficientes.','error');return;}
+  const email=S.pendingUnlockEmail;
+  S.user.credits-=1;
+  const u=S.users.find(u=>u.email===S.user.email);if(u)u.credits=S.user.credits;
+  S.unlockedProfiles[email]=true;
+  S.creditHistory.push({type:'debit',amount:1,desc:`Desbloqueio de perfil: ${S.professionals.find(p=>p.email===email)?.name||email}`,date:today()});
+  closeModal('modal-unlock');
+  notify('✅ Perfil desbloqueado com sucesso!','success');
+  if(!$('page-home').classList.contains('hidden'))renderHomePros();
+  if(!$('page-professionals').classList.contains('hidden'))renderAllPros(S.professionals);
+  setTimeout(()=>viewPro(email),200);
+}
+
+function contactPro(email){
+  if(!S.user){openModal('modal-login');return;}
+  const p=S.professionals.find(p=>p.email===email);
+  if(!p)return;
+  let ch=S.chats.find(c=>c.email===email);
+  if(!ch){ch={id:Date.now(),name:p.name,email:p.email,avatar:p.avatar,msgs:[]};S.chats.push(ch);}
+  S.activeChat=ch.id;
+  navigateTo('messages');
+}
+function contactProByName(email,name){
+  if(!S.user){openModal('modal-login');return;}
+  let ch=S.chats.find(c=>c.email===email);
+  if(!ch){const av=name.split(' ').map(w=>w[0]).slice(0,2).join('');ch={id:Date.now(),name,email,avatar:av,msgs:[]};S.chats.push(ch);}
+  S.activeChat=ch.id;navigateTo('messages');
+}
+
+// ══════════════════════════════════════════
+//  RATING
+// ══════════════════════════════════════════
+function setupRatingStars(){
+  document.querySelectorAll('#rating-stars .star').forEach(s=>{
+    s.addEventListener('click',function(){S.selectedRating=parseInt(this.dataset.v);updateStarsUI();});
+  });
+}
+function updateStarsUI(){
+  document.querySelectorAll('#rating-stars .star').forEach(s=>{
+    s.classList.toggle('active',parseInt(s.dataset.v)<=S.selectedRating);
+  });
+}
+function openRating(email,name){
+  if(!S.user){notify('Faça login para avaliar.','warning');openModal('modal-login');return;}
+  $('rating-target').value=email;
+  $('rating-pro-name').textContent=`Avaliando: ${name}`;
+  S.selectedRating=0;updateStarsUI();$('rating-comment').value='';
+  openModal('modal-rating');setupRatingStars();
+}
+function submitRating(e){
+  e.preventDefault();
+  if(S.selectedRating===0){notify('Selecione uma nota.','error');return;}
+  const email=$('rating-target').value;
+  if(S.ratings.find(r=>r.from===S.user.email&&r.to===email)){notify('Você já avaliou este profissional.','warning');closeModal('modal-rating');return;}
+  S.ratings.push({from:S.user.email,to:email,stars:S.selectedRating,comment:$('rating-comment').value.trim(),date:today()});
+  closeModal('modal-rating');notify('✅ Avaliação enviada! Obrigado.');
+  if(!$('page-home').classList.contains('hidden'))renderHomePros();
+  if(!$('page-professionals').classList.contains('hidden'))renderAllPros(S.professionals);
+  if(!$('page-dashboard').classList.contains('hidden'))initDash();
+}
+
+// ══════════════════════════════════════════
+//  JOB / PRO MODALS
+// ══════════════════════════════════════════
+function viewJob(id){
+  const j=S.jobs.find(j=>j.id===id);if(!j)return;
+  $('job-modal-title').textContent=j.cat;
+  const tags=j.tags?.map(t=>`<span class="tag">${t}</span>`).join('')||'';
+  $('job-modal-body').innerHTML=`
+    <div class="badge badge-info" style="margin-bottom:.8rem;">${j.cat}</div>
+    <p style="margin:.5rem 0;font-size:.95rem;">${j.desc}</p>
+    <div class="job-tags" style="margin:.7rem 0;">${tags}</div>
+    <hr class="divider">
+    <p>📍 <strong>${j.city} — ${j.state}</strong></p>
+    ${j.budget?`<p>💰 <strong>Orçamento: R$ ${Number(j.budget).toLocaleString('pt-BR')}</strong></p>`:''}
+    <p style="font-size:.82rem;color:var(--text-muted);">📅 Publicado em ${fmtDate(j.date)}</p>
+    <p style="margin-top:.5rem;">📩 <strong>${j.proposals?.length||0}</strong> proposta(s) enviadas</p>
+    <hr class="divider">
+    <button class="btn btn-primary btn-block" onclick="closeModal('modal-job');openPropose(${j.id})">📩 Enviar Proposta</button>
+  `;
+  openModal('modal-job');
+}
+function viewPro(email){
+  const p=S.professionals.find(p=>p.email===email);if(!p)return;
+  const r=avgRating(p.email);
+  const rs=S.ratings.filter(rv=>rv.to===email);
+  const unlocked=isUnlocked(email);
+  const verif=p.verified?'<span class="verified-badge" style="font-size:.9rem;">✅ Verificado</span>':'';
+  const firstName=p.name.split(' ')[0];
+
+  if(!unlocked){
+    $('pro-modal-body').innerHTML=`
+      <div class="profile-header">
+        <div class="profile-avatar-lg">${p.avatar[0]}</div>
+        <div class="profile-meta">
+          <h2>${firstName} <span class="blur-text" style="font-size:1.4rem;">██████</span> ${verif}</h2>
+          <p>${p.spec}</p>
+          <div>${starsHtml(r.avg,'1.1rem')} <small style="color:var(--text-muted);">(${r.count} avaliações)</small></div>
+          <p style="font-size:.85rem;color:var(--text-muted);">📍 <span class="blur-text">██████████████</span></p>
+        </div>
+      </div>
+      <div style="background:#FFF3CD;border:2px solid var(--gold);border-radius:12px;padding:1.2rem;text-align:center;margin:1rem 0;">
+        <div style="font-size:2rem;margin-bottom:.4rem;">🔒</div>
+        <div style="font-weight:800;font-size:1rem;margin-bottom:.3rem;">Dados protegidos</div>
+        <div style="font-size:.85rem;color:var(--text-muted);margin-bottom:.8rem;">Desbloqueie para ver: nome completo, telefone, e-mail, localização, bio e avaliações detalhadas.</div>
+        <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.8rem;padding:.5rem;background:rgba(0,0,0,.04);border-radius:8px;">
+          <strong>Prévia das avaliações:</strong><br>
+          ${rs.length?rs.map(rv=>`${starsHtml(rv.stars,'1rem')} — <span style="font-size:.78rem;">"${rv.comment?rv.comment.substring(0,30)+'…':'Comentário oculto'}"</span>`).join('<br>'):'Sem avaliações ainda.'}
+        </div>
+        <button class="btn btn-gold btn-lg" onclick="closeModal('modal-pro');openUnlock('${email}','${p.name}')">🔓 Desbloquear por 1 crédito (R$ 2,00)</button>
+      </div>
+    `;
+    openModal('modal-pro');
+    return;
+  }
+
+  $('pro-modal-body').innerHTML=`
+    <div style="background:#E8FBF5;border-radius:10px;padding:.6rem 1rem;margin-bottom:1rem;font-size:.82rem;color:var(--primary-dark);font-weight:700;">✅ Perfil desbloqueado — dados completos visíveis</div>
+    <div class="profile-header">
+      <div class="profile-avatar-lg">${p.avatar}</div>
+      <div class="profile-meta">
+        <h2>${p.name} ${verif}</h2>
+        <p>${p.spec}</p>
+        <div>${starsHtml(r.avg,'1.1rem')} <small style="color:var(--text-muted);">(${r.count} avaliações)</small></div>
+        <p style="font-size:.85rem;color:var(--text-muted);">📍 ${p.loc}</p>
+      </div>
+    </div>
+    ${p.bio?`<p style="margin-bottom:1rem;font-size:.9rem;color:var(--text-muted);">${p.bio}</p>`:''}
+    ${p.phone?`<p style="margin-bottom:1rem;">📱 <strong>${p.phone}</strong></p>`:''}
+    <p style="margin-bottom:1rem;">📧 <strong>${p.email}</strong></p>
+    <hr class="divider">
+    <h4 style="margin-bottom:.8rem;">⭐ Avaliações</h4>
+    ${rs.length?rs.map(rv=>`<div class="card card-sm" style="margin-bottom:.6rem;">${starsHtml(rv.stars,'1rem')} <strong>${rv.stars}/5</strong><p style="font-size:.82rem;color:var(--text-muted);margin-top:.3rem;">${rv.comment||'Sem comentário.'}</p></div>`).join(''):'<p style="color:var(--text-muted);font-size:.88rem;">Sem avaliações ainda.</p>'}
+    <hr class="divider">
+    <div style="display:flex;gap:.8rem;">
+      <button class="btn btn-primary" style="flex:1;" onclick="closeModal('modal-pro');contactPro('${email}')">💬 Enviar Mensagem</button>
+      <button class="btn btn-outline" style="color:var(--gold);border-color:var(--gold);flex:1;" onclick="openRating('${email}','${p.name}')">⭐ Avaliar</button>
+    </div>
+  `;
+  openModal('modal-pro');
+}
+
+// ══════════════════════════════════════════
+//  PROPOSALS
+// ══════════════════════════════════════════
+function openPropose(jobId){
+  if(!S.user){notify('Faça login para candidatar-se.','warning');openModal('modal-login');return;}
+  $('prop-job-id').value=jobId;$('prop-msg').value='';$('prop-value').value='';$('prop-deadline').value='';
+  openModal('modal-propose');
+}
+function submitProposal(e){
+  e.preventDefault();
+  const jobId=Number($('prop-job-id').value);
+  const job=S.jobs.find(j=>j.id===jobId);if(!job){notify('Vaga não encontrada.','error');return;}
+  if(job.userEmail===S.user.email){notify('Você não pode candidatar-se à própria vaga.','warning');return;}
+  const exists=job.proposals?.find(p=>p.proEmail===S.user.email);
+  if(exists){notify('Você já enviou proposta para esta vaga.','warning');closeModal('modal-propose');return;}
+  job.proposals=job.proposals||[];
+  job.proposals.push({proName:S.user.name,proEmail:S.user.email,msg:$('prop-msg').value.trim(),value:$('prop-value').value,deadline:$('prop-deadline').value,date:today()});
+  closeModal('modal-propose');notify('✅ Proposta enviada com sucesso!');
+}
+
+// ══════════════════════════════════════════
+//  SEARCH
+// ══════════════════════════════════════════
+function doSearch(){
+  const q=$('search-input').value.trim().toLowerCase();
+  if(!q)return notify('Digite algo para buscar.','warning');
+  doSearchTerm(q);
+}
+function doSearchTerm(q){
+  const ql=q.toLowerCase();
+  navigateTo('professionals');
+  setTimeout(()=>{
+    const res=S.professionals.filter(p=>p.name.toLowerCase().includes(ql)||p.spec.toLowerCase().includes(ql)||p.loc.toLowerCase().includes(ql));
+    renderAllPros(res.length?res:S.professionals);
+    if(res.length)notify(`${res.length} profissional(is) encontrado(s) para "${q}".`,'info');
+    else notify(`Nenhum resultado para "${q}". Exibindo todos.`,'warning');
+  },100);
+}
+function goCategory(name){
+  navigateTo('jobs');
+  setTimeout(()=>{
+    const s=$('filter-cat');if(s){const o=Array.from(s.options).find(o=>o.value===name);if(o)s.value=o.value;}
+    filterJobs();
+  },100);
+}
+
+// ══════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════
+function openAdminAuth(){
+  $('admin-step1').classList.remove('hidden');$('admin-step2').classList.add('hidden');
+  openModal('modal-admin-auth');
+}
+function adminLogin(e){
+  e.preventDefault();
+  if($('adm-email').value===S.adminEmail&&$('adm-pwd').value===S.adminPwd){
+    $('admin-step1').classList.add('hidden');$('admin-step2').classList.remove('hidden');
+    notify('Email verificado. Insira o código 2FA.','info');
+  } else notify('Credenciais incorretas.','error');
+}
+function adminVerify2FA(){
+  const code=Array.from(document.querySelectorAll('#adm-code-row input')).map(i=>i.value).join('');
+  if(code===S.admin2FA){S.adminAuthed=true;closeModal('modal-admin-auth');openAdmin();}
+  else notify('Código 2FA incorreto.','error');
+}
+function openAdmin(){
+  if(!S.adminAuthed)return;
+  document.querySelector('.header').classList.add('hidden');
+  document.querySelector('.container').classList.add('hidden');
+  document.querySelector('.footer').classList.add('hidden');
+  document.querySelector('.tarja').classList.add('hidden');
+  $('admin-shell').classList.add('active');
+  adminTab('overview',document.querySelector('#admin-menu li'));
+}
+function closeAdmin(){
+  S.adminAuthed=false;
+  $('admin-shell').classList.remove('active');
+  document.querySelector('.header').classList.remove('hidden');
+  document.querySelector('.container').classList.remove('hidden');
+  document.querySelector('.footer').classList.remove('hidden');
+  document.querySelector('.tarja').classList.remove('hidden');
+  navigateTo('home');
+}
+function adminTab(tab,el){
+  document.querySelectorAll('#admin-menu li').forEach(l=>l.classList.remove('act'));
+  if(el)el.classList.add('act');
+  const c=$('admin-content');
+  const tabs={
+    overview:()=>`<h2 style="margin-bottom:1.5rem;">📊 Visão Geral</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem;">
+        ${[['👥 Usuários',S.users.length],['🔧 Profissionais',S.professionals.length],['📝 Vagas',S.jobs.length],['⭐ Avaliações',S.ratings.length]].map(([l,v])=>`<div class="stat-box"><div class="stat-num">${v}</div><div class="stat-lbl">${l}</div></div>`).join('')}
+      </div>`,
+    users:()=>`<h2 style="margin-bottom:1rem;">👥 Usuários</h2>
+      <div class="admin-table"><table><thead><tr><th>Nome</th><th>Email</th><th>Tipo</th><th>Créditos</th><th>Status</th><th>Ações</th></tr></thead><tbody>
+        ${S.users.map(u=>`<tr>
+          <td>${u.name}</td><td>${u.email}</td><td>${u.type}</td><td>${u.credits}</td>
+          <td><span class="badge ${u.status==='active'?'badge-success':'badge-danger'}">${u.status}</span></td>
+          <td><button class="btn btn-sm ${u.status==='active'?'btn-danger':'btn-primary'}" onclick="toggleUser('${u.email}')">${u.status==='active'?'Bloquear':'Desbloquear'}</button></td>
+        </tr>`).join('')}
+      </tbody></table></div>`,
+    pros:()=>`<h2 style="margin-bottom:1rem;">🔧 Profissionais</h2>
+      <div class="admin-table"><table><thead><tr><th>Nome</th><th>Especialidade</th><th>Local</th><th>Verificado</th><th>Ações</th></tr></thead><tbody>
+        ${S.professionals.map(p=>`<tr>
+          <td>${p.name}</td><td>${p.spec}</td><td>${p.loc}</td>
+          <td><span class="badge ${p.verified?'badge-success':'badge-warning'}">${p.verified?'✅ Sim':'Pendente'}</span></td>
+          <td><button class="btn btn-sm btn-primary" onclick="toggleVerified('${p.email}')">${p.verified?'Revogar':'Verificar'}</button>
+          <button class="btn btn-sm btn-danger" onclick="removePro('${p.email}')">Remover</button></td>
+        </tr>`).join('')}
+      </tbody></table></div>`,
+    jobs:()=>`<h2 style="margin-bottom:1rem;">📝 Vagas (${S.jobs.length})</h2>
+      <div class="admin-table"><table><thead><tr><th>Categoria</th><th>Descrição</th><th>Local</th><th>Data</th><th>Propostas</th><th>Ações</th></tr></thead><tbody>
+        ${S.jobs.map(j=>`<tr>
+          <td>${j.cat}</td><td>${j.desc.substring(0,50)}...</td><td>${j.city}/${j.state}</td>
+          <td>${fmtDate(j.date)}</td><td>${j.proposals?.length||0}</td>
+          <td><button class="btn btn-sm btn-danger" onclick="adminRemoveJob(${j.id})">Remover</button></td>
+        </tr>`).join('')}
+      </tbody></table></div>`,
+    ratings:()=>`<h2 style="margin-bottom:1rem;">⭐ Avaliações (${S.ratings.length})</h2>
+      <div class="admin-table"><table><thead><tr><th>De</th><th>Para</th><th>Estrelas</th><th>Comentário</th><th>Data</th></tr></thead><tbody>
+        ${S.ratings.map(r=>`<tr>
+          <td>${r.from}</td><td>${r.to}</td><td>${'⭐'.repeat(r.stars)}</td>
+          <td>${r.comment||'—'}</td><td>${fmtDate(r.date)}</td>
+        </tr>`).join('')}
+      </tbody></table></div>`,
+    editpage:()=>`<h2 style="margin-bottom:1rem;">✏️ Editar Página</h2>
+      <div class="card"><form onsubmit="savePageEdit(event)">
+        <div class="form-group"><label>Título Hero (HTML permitido)</label><input class="form-input" id="edit-hero-title" value="${S.heroTitle.replace(/"/g,'&quot;')}"></div>
+        <div class="form-group"><label>Subtítulo</label><input class="form-input" id="edit-hero-sub" value="${S.heroSub}"></div>
+        <button class="btn btn-primary">💾 Salvar</button>
+      </form></div>`,
+  };
+  c.innerHTML=(tabs[tab]||tabs.overview)();
+}
+function toggleUser(email){const u=S.users.find(u=>u.email===email);if(u)u.status=u.status==='active'?'blocked':'active';adminTab('users',null);notify('Status atualizado.','info');}
+function toggleVerified(email){const p=S.professionals.find(p=>p.email===email);if(p)p.verified=!p.verified;adminTab('pros',null);notify('Verificação atualizada.','info');}
+function removePro(email){S.professionals=S.professionals.filter(p=>p.email!==email);adminTab('pros',null);notify('Profissional removido.','info');}
+function adminRemoveJob(id){S.jobs=S.jobs.filter(j=>j.id!==id);adminTab('jobs',null);notify('Vaga removida.','info');}
+function savePageEdit(e){
+  e.preventDefault();
+  S.heroTitle=$('edit-hero-title').value;
+  S.heroSub=$('edit-hero-sub').value;
+  saveState();
+  notify('Página atualizada! Acesse o início para ver.','success');
+  if(!$('page-home').classList.contains('hidden')){
+    const homePage = $('home-jobs').closest('.page');
+    homePage.querySelector('.hero h1').innerHTML=S.heroTitle;
+    homePage.querySelector('.hero p').textContent=S.heroSub;
+  }
+}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+function init(){
+  updateAuthUI();
+  initHome();
+  setupRatingStars();
+  document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('active');}));
+}
+init();
+</script>
+</body>
+</html>
