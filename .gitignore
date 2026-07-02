@@ -1,0 +1,6 @@
+# Ignore local environment files containing secrets
+.env
+
+# You can add other local env variants if you use them
+# .env.local
+# .env.development
