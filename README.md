@@ -159,6 +159,41 @@ Use o Painel Administrativo → "Editar Página" ou dirija-se ao objeto `S.heroT
 - [ ] Mobile app (React Native)
 - [ ] Verificação de profissionais
 
+## ⚠️ Segurança: Variáveis de Ambiente & Segredos
+
+Este projeto NÃO deve conter chaves ou segredos em texto claro no repositório. Se uma chave foi exposta, revogue-a imediatamente no painel do provedor e gere uma nova.
+
+Recomendações rápidas:
+
+- Use um arquivo local `.env` para desenvolvimento e inclua o arquivo `.env` em `.gitignore`.
+- Adicione um arquivo `.env.example` ao repositório com os nomes das variáveis, sem valores (ex.: `STRIPEBOARD_API_KEY=REPLACE_WITH_YOUR_KEY`).
+- Para CI (GitHub Actions), configure os segredos em Settings → Secrets and variables → Actions e acesse-os no workflow via `${{ secrets.VARIABLE_NAME }}`.
+- Em produção, gerencie segredos por meio do provedor (Vercel, Netlify, Heroku) ou um secrets manager (AWS Secrets Manager, HashiCorp Vault).
+
+Exemplo `.env.example`:
+```
+STRIPEBOARD_API_KEY=REPLACE_WITH_YOUR_KEY
+```
+
+Exemplo de uso em Node.js/JavaScript:
+```javascript
+const API_KEY = process.env.STRIPEBOARD_API_KEY;
+// use API_KEY nas chamadas ao serviço
+```
+
+Exemplo de GitHub Actions (workflow):
+```yaml
+env:
+  STRIPEBOARD_API_KEY: ${{ secrets.STRIPEBOARD_API_KEY }}
+steps:
+  - name: Build
+    run: node ./scripts/use-key.js
+    env:
+      STRIPEBOARD_API_KEY: ${{ secrets.STRIPEBOARD_API_KEY }}
+```
+
+Se a chave já foi comitada no histórico Git, além de rotê‑la você pode removê‑la do histórico usando ferramentas como `git filter-repo` ou BFG Repo-Cleaner — lembre-se que isso requer force-push e coordenação com colaboradores.
+
 ---
 
 **Desenvolvido com ❤️ para conectar profissionais e clientes.**
